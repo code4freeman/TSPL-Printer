@@ -1,0 +1,15 @@
+{
+  "name": "tspl-printer",
+  "version": "0.0.1",
+  "description": "tspl 打印机驱动库",
+  "main": "connection/usb.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "lilin <lilin@lilin.site>",
+  "license": "MIT",
+  "dependencies": {
+    "iconv-lite": "^0.6.3",
+    "usb": "^2.3.1"
+  }
+}
