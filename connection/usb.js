@@ -22,27 +22,27 @@ const { outpoint } = printer.interfaces[0]?.endpoints?.reduce((res, point) => {
     return res;
 }, {});
 
-// console.log(outpoint);
+const TSPL = require("../command/TSPL.class");
+let cmd = new TSPL({ height: "5mm" });
 
-const iconv = require("iconv-lite");
-let cmd = `
+// const cmd = `
+//
+// SIZE 72mm,50mm
+// DIRECTION 0
+// GAP 5mm
+// OFFSET 20mm
+// CLS
+//
+// TEXT 0,0,0,0,1,1,测试文字TEST_TEXT
+// BAR 0,30,576,2
+//
+// PRINT 1
+// `;
 
-SIZE 72mm
-GAP 0,0
-DIRECTION 0
-CLS
-
-TEXT 0,0,0,0,1,1,测试一下
-BAR 0,30,576,4
-
-PRINT 1
-`;
-
-// cmd = cmd.replace("\n", "\r\n");
-console.log(cmd.split(""));
+cmd.drawLine(0, 0, 576, 4);
 
 // outpoint.transfer(iconv.encode(cmd, "GB18030"),err => {
-outpoint.transfer(iconv.encode(cmd, "GB18030"), err => {
+outpoint.transfer(cmd._export(), err => {
     if (err) {
         console.log("出错:");
         console.log(err);
