@@ -23,7 +23,7 @@ const { outpoint } = printer.interfaces[0]?.endpoints?.reduce((res, point) => {
 }, {});
 
 const TSPL = require("../command/TSPL.class");
-let cmd = new TSPL({ height: "5mm" });
+let cmd = new TSPL({ height: "30mm" });
 
 // const cmd = `
 //
@@ -40,6 +40,10 @@ let cmd = new TSPL({ height: "5mm" });
 // `;
 
 cmd.drawLine(0, 0, 576, 4);
+cmd.text("0mm", "12dot", "你好，测试一下", 2);
+cmd.drawLine(0, 44, 576, 1 )
+cmd.barcode(0, 52, 80, 2, 1, "1234567890");
+cmd.qrcode(0, 168, "L", 5, "1234567890");
 
 // outpoint.transfer(iconv.encode(cmd, "GB18030"),err => {
 outpoint.transfer(cmd._export(), err => {
