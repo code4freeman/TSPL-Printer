@@ -65,6 +65,7 @@ class TSPL extends BaseComand {
     }
 
     _export () {
+        this.#cmds.push(`PRINT 1,1\n`);
         console.log(this.#cmds);
         return encode(this.#cmds.join("\n"), this.#options.encoding);
     }
@@ -136,7 +137,7 @@ class TSPL extends BaseComand {
      * @param {Number} direction 水平位置左中右对应0,1,2; 缺省为0,
      * @return {TSPL}
      */
-    text (x, y, text, dir = 0) {
+    text (x, y, text, align = 0) {
         const textLength = this._computeTextLength(text);
         const calcDirs = [
             () => text,
@@ -146,7 +147,7 @@ class TSPL extends BaseComand {
             },
             () => " ".repeat(47 - textLength) + text
         ];
-        this.#cmds.push(`TEXT ${x},${y},"0",0,1,1,${calcDirs[dir]()}`);
+        this.#cmds.push(`TEXT ${x},${y},"0",0,1,1,0,${calcDirs[align]()}`);
         return this;
     }
 }

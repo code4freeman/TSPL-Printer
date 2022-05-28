@@ -4,6 +4,7 @@ const { getDeviceList, usb } = require("usb");
 
 // console.log(getDeviceList());
 // console.log(usb);
+const iconv = require("iconv-lite");
 
 const printers = getDeviceList().filter(d => {
     return d.configDescriptor?.interfaces.some(arr => {
@@ -23,7 +24,7 @@ const { outpoint } = printer.interfaces[0]?.endpoints?.reduce((res, point) => {
 }, {});
 
 const TSPL = require("../command/TSPL.class");
-let cmd = new TSPL({ height: "30mm" });
+let cmd = new TSPL({ height: "10mm" });
 
 // const cmd = `
 //
@@ -39,14 +40,29 @@ let cmd = new TSPL({ height: "30mm" });
 // PRINT 1
 // `;
 
-cmd.drawLine(0, 0, 576, 4);
-cmd.text("0mm", "12dot", "你好，测试一下", 2);
-cmd.drawLine(0, 44, 576, 1 )
-cmd.barcode(0, 52, 80, 2, 1, "1234567890");
-cmd.qrcode(0, 168, "L", 5, "1234567890");
+// cmd.drawLine(0, 0, 576, 4);
+cmd.text("0mm", "0dot", "你好，测试一下", 1);
+// cmd.drawLine(0, 44, 576, 1 )
+// cmd.barcode(0, 52, 80, 2, 1, "1234567890");
+// cmd.qrcode(0, 168, "L", 5, "1234567890abcdefg");
 
-// outpoint.transfer(iconv.encode(cmd, "GB18030"),err => {
-outpoint.transfer(cmd._export(), err => {
+outpoint.transfer(iconv.encode(`
+SIZE 75mm,20mm
+GAP 2mm,0
+DIRECTION 1
+CLS
+TEXT 0,0,"1",0,1,1,"您好您好您好您好您好您好您好"
+
+TEXT 0,13,"1",0,1,1,"----------------------------"
+
+TEXT 0,26,"2",0,1,1,"您好您好"
+
+TEXT 0,47,"2",0,1,1,"-------"
+
+PRINT 1,1
+
+`, "GB18030"),err => {
+// outpoint.transfer(cmd._export(), err => {
     if (err) {
         console.log("出错:");
         console.log(err);
