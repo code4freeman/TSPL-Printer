@@ -1,7 +1,8 @@
 "use strict";
 
-const { getDeviceList } = require("usb");
-const { promisify } = require("./tool");
+import { getDeviceList } from "usb";
+import { promisify } from "./tool.mjs";
+
 const PRINTER_TYPE = 0x07;
 
 class UsbConnection {
@@ -11,6 +12,10 @@ class UsbConnection {
     }
     #inpoint = null;
     #outpoint = null;
+
+    on (ename, cb) {
+        this.#events[ename] = cb;
+    }
 
     constructor () {
         /**
@@ -27,12 +32,20 @@ class UsbConnection {
         device.open();
         device.interfaces?.[0].claim();
         [ this.#inpoint, this.#outpoint ] = device.interfaces[0].endpoints;
+        this.#inpoint.on("data", chunk => {
+            console.log("data ->");
+            this.#events.data(chunk);
+        });
+        this.#inpoint.on("error", err => {
+            console.log("error ->");
+            this.#events.error(err);
+        });
+        this.#inpoint.startPoll();
     }
 
-    write () {
+    write (buffer) {
         return promisify(this.#outpoint.transfer.bind(this.#outpoint))(buffer);
     }
 };
 
-const t = new UsbConnection();
-console.log(t.write(Buffer.from([  ])));
+export default UsbConnection;

@@ -1,30 +1,26 @@
-"use strict";
-
 /**
- * mixin
- *
- * @param source {Object}
- * @param target {Object}
- * @param exclude {Function}
+ * 扩展source的原型方法到target
+ * 
+ * @param {Object} source 
+ * @param {Object} target 
  * @return {void}
  * @public
  */
-exports.mixin = (
-    source= {},
-    target= {},
-    exclude = key => {
-        return false;
-    },
-) => {
-    Reflect.ownKeys(source).forEach(k => {
-        if (
-            target[k] ||
-            !(source[k] instanceof Function) ||
-            exclude.call(source, k)
-        ) return;
+export const expand = (source, target) => {
+    Reflect.ownKeys(Object.getPrototypeOf(source)).forEach(k => {
+        if (k === "constructor") return;
         Object.defineProperty(target, k, {
             enumerable: true,
-            value: source[k].bind(source),
+            value: new Proxy(source[k], {
+                apply (...[ { name: key },, args]) {
+                    if (key.startsWith("_")) {
+                        return source[key](...args);
+                    } else {
+                        source[key](...args);
+                        return target;
+                    }
+                }
+            })
         });
     });
 };
@@ -32,11 +28,11 @@ exports.mixin = (
 /**
  * promisify
  *
- * @param fn {Function}
+ * @param {Function} fn - 错误优先回调
  * @return {Function}
  * @public
  */
-exports.promisify = fn => {
+export const promisify = fn => {
     return (...args) => {
         return new Promise((resolve, reject) => {
             if (args.length !== fn.length - 1)
