@@ -1,10 +1,11 @@
 import Printer from "#Printer";
+import { encode } from "GBKCodec";
 
 const pt = new Printer();
 
 console.log(pt);
 
-pt.text(0, 0, "ABC测试一下", 2)
-.text(16 * 11, 0, "ABC测试一下", 2)
-.feed(80)
+pt
+// .barcode(16, 100, 80, "test1234")
+.qrcode(216, 0, "12345678901234567890123456789012345678901234567890", 8)
 .print();

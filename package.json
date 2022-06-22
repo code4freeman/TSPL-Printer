@@ -13,6 +13,7 @@
   "license": "MIT",
   "dependencies": {
     "GBKCodec": "github:lilindog/GBKCodec",
+    "get-pixels": "^3.3.3",
     "iconv-lite": "^0.6.3",
     "usb": "^2.4.2"
   }
