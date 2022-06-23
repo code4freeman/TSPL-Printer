@@ -61,6 +61,6 @@ const t2 = async () => {
     .print();
 };
 
-t2()
+t1()
 .then(setTimeout.bind(null, process.exit, 2000))
 .catch(console.error);
