@@ -10,13 +10,13 @@ import { promisify, pixelMatrix2bitmap } from "./tool.mjs";
  * 的分开实现，有的平台可以使用宿主环境的相关api来实现
  * 
  * @param {String} source - 图片绝对地址
- * @return {Uint8Array}
+ * @return {Promise<Uint8Array>}
  * @public
  */
-export const bitmap_nodejs = async path => {
+export default async path => {
     if (!isAbsolute(path)) 
         throw new Error(`[ bitmap_nodejs ] path 必须为绝对路径`);
-    
+        
     const { data, shape: [ width, height ] } = await promisify(pixels)(path, undefined);
     return pixelMatrix2bitmap(data, width, height);
 };　

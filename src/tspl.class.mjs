@@ -1,13 +1,22 @@
-class TsplOptions {
+import Language from "./abstract/Language.class.mjs";
+
+class TsplOption {
     /**
      * 所有的字段配置都是可选的，若传入的options无对应字段，则采用该结构里的初始值为默认值
      * 设置参数请参考文档：http://inside.lilin.site:5000/sharing/IlAq1Gge7
      */
     static Fields = {
-        size: "80mm,50mm",
+        size: "80mm,80mm",
         direction: 1,
-        gap: "2mm,0", // ！实测后面的0跟mm单位会导致测试打印机工作与label模式
-        reference: 0, // 单位只支持dot
+
+        /**
+         * ！
+         * 后面的0（间隙偏移距离）带mm单位会导致测试打印机工作与label模式
+         * 如果用于打印票据，工作在label模式下传感器会寻找黑标（间隙）导致
+         * 打印机报警或扯纸。
+         */
+        gap: "2mm,0",
+        reference: 0, 
 
         /**
          * 若没有编码器会直接缓存tspl字符，上层调用_export时请自行编码
@@ -19,7 +28,7 @@ class TsplOptions {
     };
 
     static Options2Tspl = ((option = {}) => {
-        return Reflect.ownKeys(TsplOptions.Fields)
+        return Reflect.ownKeys(TsplOption.Fields)
                 .filter(k => ["string", "number"].includes(typeof option[k]))
                 .map(k => `${k.toUpperCase()} ${option[k]}`);
     });
@@ -29,50 +38,48 @@ class TsplOptions {
          * 鸭儿类型匹配即可，不需要严格继承
          */
         const option = Object.create(null);
-        Reflect.ownKeys(TsplOptions.Fields).forEach(k => {
+        Reflect.ownKeys(TsplOption.Fields).forEach(k => {
             Object.defineProperty(option, k, {
                 configurable: true,
-                value: options.hasOwnProperty(k) && options[k] !== undefined ? options[k] : TsplOptions.Fields[k]
+                value: options.hasOwnProperty(k) && options[k] !== undefined ? options[k] : TsplOption.Fields[k]
             });
         });
         return option;
     }
 }
 
-class Tspl {
-    static Options = TsplOptions;
+class Tspl extends Language {
+    static Option = TsplOption;
     #cache = [];
     #option = {};
 
     constructor (option = {}) {
-        this.#option = new TsplOptions(option);
+        super();
+        this.#option = new TsplOption(option);
         this._init();
     }
 
     #append (tspl) {
-        if (this.#option.encoder) {
-            this.#cache = [...this.#cache, ...this.#option.encoder("\r\n" + tspl)];
-        } else {
-            this.#cache.push(tspl);
-        }
+        if (!this.#option.encoder) 
+            throw new Error(`[ Tspl ] 没有指定encoder`);
+
+        this.#cache = [...this.#cache, ...this.#option.encoder("\r\n" + tspl)];
         return this;
     }
 
     _init () {
         this.#cache = [];
-        const init = TsplOptions.Options2Tspl(this.#option);
+        const init = TsplOption.Options2Tspl(this.#option);
         init.push("CLS");
         this.#append(init.join("\r\n"));
     }
 
     _export () {
-        if (this.#option.encoder) {
-            return new Uint8Array(
-                [...this.#cache, ...this.#option.encoder("\r\nPRINT 1\r\n")]
-            );
-        } else {
-            return [...this.#cache, "PRINT 1,1"].join("\r\n") + "\r\n";
-        }
+        if (!this.#option.encoder) 
+            throw new Error(`[ Tspl ] 没有指定encoder`);
+        return new Uint8Array(
+            [...this.#cache, ...this.#option.encoder("\r\nPRINT 1\r\n")]
+        );
     }
 
     
@@ -96,7 +103,7 @@ class Tspl {
     }
 
     /**
-     * 走纸
+     * 打印前走纸
      *
      * @param {Number} [dot=1] - 进纸张点数，具体的点数dpi、请参考打印机参数
      * @return {Tspl}
@@ -168,6 +175,7 @@ class Tspl {
 
     /**
      * 绘制色块，当然也可以绘制线条
+     * 所有单位均为dot
      * 
      * @param {Number} x 
      * @param {Number} y
@@ -230,8 +238,8 @@ class Tspl {
      * @param {Number} [height=80] - height
      * @param {String} [content=""] - 条码内容，请遵循code128的约定，不是啥字符都可以往里边放的
      * @param {Boolean} [label=true] - 是否显示条码的label部分
-     * @param {Number} [rotate=0] - 旋转角度，支持0,90,180,270
      * @param {Number} [elementWidth=2] - 条码每位宽度
+     * @param {Number} [rotate=0] - 旋转角度，支持0,90,180,270
      * @return {Tspl}
      * @public
      */
@@ -241,8 +249,8 @@ class Tspl {
         height = 80,
         content = "",
         label = true,
-        rotate = 0,
-        elementWidth = 2
+        elementWidth = 2,
+        rotate = 0
     ) {
         return this.#append(`BARCODE ${x},${y},"128",${height},${+label},${rotate},${elementWidth},${elementWidth},"${content}"`);
     }
@@ -274,6 +282,7 @@ class Tspl {
     /**
      * 打印图片
      * 单位为dot，除非参数有单独说明
+     * 每个bit在打印机上为1个dot
      * 
      * @param {Number} [x=0]
      * @param {Number} [y=0]

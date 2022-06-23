@@ -33,14 +33,16 @@ PRINT 1
 
 } else {
 
-    bitmap_nodejs(resolve("./320x320.png"))
+    bitmap_nodejs(resolve("./500x500.png"))
     .then(source => {
         console.log(source.length);
         console.log(Math.sqrt(source.length));
-        tspl.bitmap(0, 0, 40, 250, source);
+        tspl
+        .density(1)
+        .text(0, 0, "你好test123456", 2)
+        .bitmap(0, 30, 63, 500, source);
         const s = decodeText(tspl._export());
         fs.writeFileSync("./test.bin", s);
-        console.log(s.split(""));
         usb.write(tspl._export()).then(process.exit);
     });
 }

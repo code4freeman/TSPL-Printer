@@ -1,10 +1,13 @@
 {
-  "name": "tspl-printer",
+  "name": "TSPL-Printer",
   "version": "0.0.1",
-  "description": "tspl 打印机驱动库",
-  "main": "connection/usb.js",
+  "description": "TSPL 打印机驱动库",
+  "main": "",
   "imports": {
-    "#Printer": "./src/printer.class.mjs"
+    "#Printer": "./src/printer.class.mjs",
+    "#Usb": "./src/usb.class.mjs",
+    "#Tspl": "./src/tspl.class.mjs",
+    "#bitmap_nodejs": "./src/bitmap_nodejs.mjs"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -14,7 +17,6 @@
   "dependencies": {
     "GBKCodec": "github:lilindog/GBKCodec",
     "get-pixels": "^3.3.3",
-    "iconv-lite": "^0.6.3",
     "usb": "^2.4.2"
   }
 }
