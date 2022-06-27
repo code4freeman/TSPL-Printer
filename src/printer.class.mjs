@@ -58,8 +58,7 @@ class Printer {
      */
     print () {
         const source =  this.#option.language._export();
-        this.#option.connection.write(source);
-        return source;
+        return this.#option.connection.write(source);
     }
 }
 
