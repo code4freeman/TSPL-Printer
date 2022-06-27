@@ -1,5 +1,10 @@
 import Language from "./abstract/Language.class.mjs";
 
+/**
+ * Tspl配置类
+ *
+ * @class
+ */
 class TsplOption {
     /**
      * 所有的字段配置都是可选的，若传入的options无对应字段，则采用该结构里的初始值为默认值
@@ -48,6 +53,12 @@ class TsplOption {
     }
 }
 
+/**
+ * Tspl类
+ *
+ * @class
+ * @extends Language
+ */
 class Tspl extends Language {
     static Option = TsplOption;
     #cache = [];
@@ -67,6 +78,12 @@ class Tspl extends Language {
         return this;
     }
 
+    /**
+     * 初始化
+     *
+     * @override
+     * @returns {Tspl}
+     */
     _init () {
         this.#cache = [];
         const init = TsplOption.Options2Tspl(this.#option);
@@ -74,6 +91,12 @@ class Tspl extends Language {
         this.#append(init.join("\r\n"));
     }
 
+    /**
+     * 导出指令
+     *
+     * @returns {Uint8Array} - 返回指令的字节缓存
+     * @override
+     */
     _export () {
         if (!this.#option.encoder) 
             throw new Error(`[ Tspl ] 没有指定encoder`);
@@ -95,7 +118,7 @@ class Tspl extends Language {
      * 打印色彩密度
      *
      * @param {Number} [density=15] - 密度值0~15
-     * @return {Tspl}
+     * @returns {Tspl}
      * @public
      */
     density (density = 15) {
@@ -106,7 +129,7 @@ class Tspl extends Language {
      * 打印前走纸
      *
      * @param {Number} [dot=1] - 进纸张点数，具体的点数dpi、请参考打印机参数
-     * @return {Tspl}
+     * @returns {Tspl}
      * @public
      */
     feed (dot = 1) {
@@ -117,7 +140,7 @@ class Tspl extends Language {
      * 反向走纸
      *
      * @param {Number} [dot=1] 
-     * @return {Tspl}
+     * @returns {Tspl}
      * @public
      */
     backFeed (dot = 1) {
@@ -133,7 +156,7 @@ class Tspl extends Language {
      * @param {Number} [y=0] - y dot
      * @param {String} [text=""] - 字符串
      * @param {Number} [scale=2] - 缩放倍数，1~15
-     * @return {Tspl}
+     * @returns {Tspl}
      * @public
      */
     text (
@@ -158,7 +181,7 @@ class Tspl extends Language {
      * @param {String} [text=""] - 字符串
      * @param {Number} [scale=2] - 缩放倍数，1~15
      * @param {Number} [lineSpace=1] - 行间距
-     * @return {Tspl}
+     * @returns {Tspl}
      * @public
      */
     block (...[
@@ -181,7 +204,7 @@ class Tspl extends Language {
      * @param {Number} y
      * @param {Number} width
      * @param {Number} height
-     * @return {Tspl}
+     * @returns {Tspl}
      * @public
      */
     bar (
@@ -203,7 +226,7 @@ class Tspl extends Language {
      * @param {Number} yEnd
      * @param {Number} [lineThickness = 1] - 线条粗度
      * @param {Number} [radius=0] - 圆角半径
-     * @return {Tspl}
+     * @returns {Tspl}
      * @public
      */
     box (
@@ -222,7 +245,7 @@ class Tspl extends Language {
      * 
      * @param {Number} [count=1] - 鸣叫次数
      * @param {Number} [time=200] - 单次鸣叫时间，单位ms
-     * @return {Tspl}
+     * @returns {Tspl}
      * @public
      */
     sound (count = 1, time = 200) {
@@ -240,7 +263,7 @@ class Tspl extends Language {
      * @param {Boolean} [label=true] - 是否显示条码的label部分
      * @param {Number} [elementWidth=2] - 条码每位宽度
      * @param {Number} [rotate=0] - 旋转角度，支持0,90,180,270
-     * @return {Tspl}
+     * @returns {Tspl}
      * @public
      */
     barcode ( 
@@ -265,7 +288,7 @@ class Tspl extends Language {
      * @param {Number} [cellSize=5] - 单元大小，0~10取值
      * @param {Number} [rotate=0] - 二维码旋转角度，取值0，90，180，270
      * @param {String} [eccLevel="H"] - 容错率，取值L、M、Q、H
-     * @return {Tspl}
+     * @returns {Tspl}
      * @public
      */
     qrcode (
@@ -290,7 +313,7 @@ class Tspl extends Language {
      * @param {Number} height
      * @param {Uint8Array|Array} source
      * @param {Number} [mode=0]
-     * @return {Tspl}
+     * @returns {Tspl}
      * @public
      */
     bitmap (

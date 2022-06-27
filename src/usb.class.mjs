@@ -7,6 +7,9 @@ const PRINTER_TYPE = 0x07;
 /**
  * 暂时以电脑打印机中的第一个打印机为准
  * 后续增加该类初始化参数，指定vid/pid来选取设备或者使用第一个设备作为默认设备
+ *
+ * @class
+ * @extends Connection
  */
 class UsbConnection extends Connection {
     #inpoint = null;
@@ -34,6 +37,13 @@ class UsbConnection extends Connection {
         this.#inpoint.startPoll();
     }
 
+    /**
+     * 数据写入
+     *
+     * @param {Uint8Array} buffer
+     * @returns {Promise}
+     * @override
+     */
     write (buffer) {
         return promisify(this.#outpoint.transfer.bind(this.#outpoint))(buffer);
     }

@@ -1,3 +1,8 @@
+/**
+ * 语言抽象类
+ *
+ * @class
+ */
 export default class Language {
 
     /**
@@ -5,6 +10,7 @@ export default class Language {
      * 约定用于上层调用
      * 
      * @return {void}
+     * @abstract
      */
     _init () {
         throw new Error(`[ Language ] 必须实现该方法`);
@@ -13,7 +19,8 @@ export default class Language {
     /**
      * 导出命令缓存
      * 
-     * @returns {Uint8Array} 
+     * @returns {Uint8Array}
+     * @abstract
      */
     _export () {
         throw new Error(`[ Language ] 必须实现该方法`);

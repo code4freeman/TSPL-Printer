@@ -1,6 +1,15 @@
+/**
+ * 连接抽象类
+ *
+ * @class
+ */
 export default class Connection {
+
     /**
      * 连接的上行数据通过下面的数据集合派发
+     *
+     * @type {Object}
+     * @protected
      */
     _events = {
         data: () => {},
@@ -10,7 +19,7 @@ export default class Connection {
     /**
      * 注册监听器
      * 
-     * @param {String} ename 
+     * @param {String} ename - 事件名
      * @param {Function} cb - cb的签名：const cb = (data) => void
      * @return {void}
      * @public
@@ -25,7 +34,7 @@ export default class Connection {
      * 写数据到连接
      * 
      * @return {Promise}
-     * @public
+     * @abstract
      */
     write () {
         throw new Error(`[ Connection ] 实现类必须实现该方法`);
