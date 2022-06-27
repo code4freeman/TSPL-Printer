@@ -10,7 +10,9 @@
     "#bitmap_nodejs": "./src/bitmap_nodejs.mjs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "preinstall": "node scripts/init-githooks.js",
+    "lint": "eslint src/*",
+    "test": "mocha"
   },
   "author": "lilin <lilin@lilin.site>",
   "license": "MIT",
@@ -18,5 +20,11 @@
     "GBKCodec": "github:lilindog/GBKCodec",
     "get-pixels": "^3.3.3",
     "usb": "^2.4.2"
+  },
+  "devDependencies": {
+    "@babel/eslint-parser": "^7.18.2",
+    "eslint": "^8.18.0",
+    "mocha": "^10.0.0",
+    "rollup": "^2.75.7"
   }
 }

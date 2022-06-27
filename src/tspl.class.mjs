@@ -34,8 +34,8 @@ class TsplOption {
 
     static Options2Tspl = ((option = {}) => {
         return Reflect.ownKeys(TsplOption.Fields)
-                .filter(k => ["string", "number"].includes(typeof option[k]))
-                .map(k => `${k.toUpperCase()} ${option[k]}`);
+            .filter(k => ["string", "number"].includes(typeof option[k]))
+            .map(k => `${k.toUpperCase()} ${option[k]}`);
     });
 
     constructor (options = {}) {
@@ -105,14 +105,12 @@ class Tspl extends Language {
         );
     }
 
-    
     /**
      * ！ 根据约定，下划线开头的方法为language层必须带的，命名固定且最终由上一层来调
      * 用；不带下划线的方法均为功能方法，命名自由。功能方法最终会mixin到上一层作为功
      * 能方法映射，但是届时的this指向有变动，内部执行时的this指向Tspl，而返回的this
      * 指向上一层的实例。   
      */
-
 
     /**
      * 打印色彩密度
@@ -168,7 +166,7 @@ class Tspl extends Language {
         return this.#append(`TEXT ${x},${y},"1",0,${scale},${scale},"${text}"`);
     }
 
-     /**
+    /**
      * 文本段落，自动处理换行
      * 中文字符等于2个英文字符，字符的打印宽度参考文档对应字体说明
      * 所有参数的单位均为点，具体数值自己计算

@@ -57,7 +57,7 @@ class Printer {
      * @public
      */
     print () {
-        const source =  this.#option.language._export();
+        const source = this.#option.language._export();
         return this.#option.connection.write(source);
     }
 }

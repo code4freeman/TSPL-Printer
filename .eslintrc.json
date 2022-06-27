@@ -1,0 +1,68 @@
+{
+  "parser": "@babel/eslint-parser",
+  "env": {
+    "node": true,
+    "commonjs": true,
+    "es6": true
+  },
+  "extends": "eslint:recommended",
+  "parserOptions": {
+    "requireConfigFile": false
+  },
+  "rules": {
+    // 缩进使用4个空格， 而非tab
+    "indent": [
+      "error",
+      4,
+      { "SwitchCase": 1 }
+    ],
+    // 仅使用双引号和反引号
+    "quotes": [
+      "error",
+      "double",
+      { "allowTemplateLiterals": true }
+    ],
+    // 要有分号
+    "semi": [
+      "error",
+      "always"
+    ],
+    // 只能使用全等
+    "eqeqeq": [
+      "error",
+      "always"
+    ],
+    // 不允许最后有空行
+    "eol-last": ["error", "never"],
+    // 不能有console
+    "no-console": "error",
+    // 代码之间最多空一行
+    "no-multiple-empty-lines": ["error", {"max": 1}],
+    // 函数或号前必须要有空格
+    "space-before-function-paren": ["error", "always"],
+    // 箭头函数胖箭头前后使用一致空格
+    "arrow-spacing": ["error", { "before": true, "after": true }],
+    // 不允许多个空格
+    "no-multi-spaces": ["error"],
+    // 关键字前后必须留空格
+    "keyword-spacing": ["error"],
+    // 操作符周围要有空格
+    "space-infix-ops": ["error"],
+    // 只能使用es6+的变/常量声明关键字
+    "no-var": ["error"],
+    // 回调函数必修使用箭头函数
+    "prefer-arrow-callback": ["error"],
+    // 禁止使用拖尾逗号
+    "comma-dangle": ["error", "never"],
+    // 逗号后必须跟空格
+    "comma-spacing": ["error"],
+    // 逗号不能出现在行开头
+    "comma-style": ["error", "last"],
+    // 禁用不必要的转义符
+    "no-useless-escape": ["off"],
+    // 允许使用NaN对比
+    "use-isnan": 0,
+    // 准许从一个对象调用某些Object.prototype的方法
+    "no-prototype-builtins": 0
+  }
+}

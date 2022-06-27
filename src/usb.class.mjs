@@ -47,6 +47,6 @@ class UsbConnection extends Connection {
     write (buffer) {
         return promisify(this.#outpoint.transfer.bind(this.#outpoint))(buffer);
     }
-};
+}
 
 export default UsbConnection;

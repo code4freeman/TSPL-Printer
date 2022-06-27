@@ -80,7 +80,7 @@ export const pixelMatrix2bitmap = (
             g: pixels[i + 1],
             b: pixels[i + 2],
             a: pixels[i + 3]
-        }
+        };
         if (pixel.a === 0) {
             binary.push(1);
             continue;

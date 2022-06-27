@@ -19,4 +19,4 @@ export default async path => {
         
     const { data, shape: [ width, height ] } = await promisify(pixels)(path, undefined);
     return pixelMatrix2bitmap(data, width, height);
-};　
+};
