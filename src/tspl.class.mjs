@@ -182,7 +182,7 @@ class Tspl extends Language {
      * @returns {Tspl}
      * @public
      */
-    block (...[
+    block (
         x = 0, 
         y = 0, 
         width = 0,
@@ -190,7 +190,7 @@ class Tspl extends Language {
         text = "", 
         scale = 2,
         lineSpace = 1
-    ]) {
+    ) {
         return this.#append(`BLOCK ${x},${y},${width},${height},"1",0,${scale},${scale},${lineSpace},"${text}"`);
     }
 

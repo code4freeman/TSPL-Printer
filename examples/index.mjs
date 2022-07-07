@@ -17,9 +17,28 @@ const t1 = async () => {
         })
     });
 
-    const bitmap = await bitmap_nodejs(resolve("./github160x160.png"));
+    /**
+     * 此次新增了bitmap缩放算法，请bitmap_nodejs函数的签名
+     * 可以自由缩放图像来适应不同的打印尺寸，但是请注意！TSPL
+     * 文档规定图像打印宽度必须字节对齐，而且需要与在bitmap命
+     * 调用时给的width参数一致
+     */
+
+    // const bitmap = await bitmap_nodejs(resolve("./github160x160.png"), 80, 80);
+    // await print
+    // .bitmap(0, 160,
+    //     /** width必须字节对齐且与bitmap缩放后的单位一致 */10,
+    //     /** height为图像缩放后的像素高度，一像素占用1dot */80,
+    //     bitmap
+    // )
+
+    const bitmap = await bitmap_nodejs(resolve("./github160x160.png"), 160, 160);
     await print
-    .bitmap(0, 160, 20, 160, bitmap)
+        .bitmap(0, 160,
+            /** width必须字节对齐且与bitmap缩放后的单位一致 */20,
+            /** height为图像缩放后的像素高度，一像素占用1dot */160,
+            bitmap
+        )
     .text(176, 213, "https://github.com/lilin", 2)
     .text(176, 245, "dog/tspl-printer", 2)
     .bar(0, 340, 600, 8)
@@ -28,7 +47,7 @@ const t1 = async () => {
     .bar(0, 568, 600, 2)
     .barcode(0, 586, 160, "123456ABCDEFG", true, 3)
     .bar(0, 786, 600, 2)
-    .block(0, 812, 600, 400, "对技术有追求的javascript程序猿，现已躺平；但追求技术的脚步不会停止。", 2, 8)
+    .block(0, 812, 600, 400, "前端流水线打工人。", 2, 8)
     .bar(0, 910, 600, 8)
     .text(0, 928, "E-mail: lilin@lilin.site")
 
