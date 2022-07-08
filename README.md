@@ -1,7 +1,7 @@
 # TSPL 指令打印机驱动
 
 针对TSPL指令集标签打印机开发的驱动程序。   
-tspl指令文档参见：[http://inside.lilin.site:5000/sharing/IlAq1Gge7](http://inside.lilin.site:5000/sharing/IlAq1Gge7)
+tspl指令文档参见：[http://lilin-nas.quickconnect.cn/sharing/IlAq1Gge7](http://lilin-nas.quickconnect.cn/sharing/IlAq1Gge7)
 
 ![看不见请翻墙](./docs/ticket_example.jpg)
 ![看不见请翻墙](./docs/label_example.jpg)
