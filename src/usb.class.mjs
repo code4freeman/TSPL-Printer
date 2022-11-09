@@ -27,7 +27,12 @@ class UsbConnection extends Connection {
         })[0];
         device.open();
         device.interfaces?.[0].claim();
-        [ this.#inpoint, this.#outpoint ] = device.interfaces[0].endpoints;
+        [ this.#inpoint, this.#outpoint ] = device.interfaces[0].endpoints.sort(endPoint => {
+            return {
+                "OutEndpoint": 1,
+                "InEndpoint": -1
+            }[Reflect.getPrototypeOf(endPoint).constructor.name];
+        });
         this.#inpoint.on("data", chunk => {
             this._events.data(chunk);
         });

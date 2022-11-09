@@ -61,25 +61,25 @@ const t2 = async () => {
     const print = new Printer({
         connection: new Usb,
         language: new Tspl({
-            size: "70mm, 50mm",
+            size: "70mm, 48mm",
             gap: "2mm, 0mm",
             encoder
         })
     });
 
-    const bitmap = await bitmap_nodejs(resolve("./github80x80.png"));
+    const bitmap = await bitmap_nodejs(resolve("./github80x80.png"), 80, 80);
     await print
-    .bitmap(0, 0, 10, 80, bitmap)
-    .text(104, 24, "https://github.com/lilindog", 2)
-    .bar(0, 96, 560, 4)
-    .qrcode(0, 110, "https://github.com/lilindog")
-    .text(180, 170, "TSPL-Printer", 4)
-    .bar(0, 290, 560, 4)    
-    .text(0, 316, "E-mail:lilin@lilin.site")
+    .bitmap(5, 0, 10, 80, bitmap)
+    .text(104, 24, "lilindog", 2)
+    .bar(5, 96, 560, 4)
+    .qrcode(5, 110, "https://github.com/lilindog")
+    .text(180, 170, "TSPL-Printer", 2)
+    .bar(5, 290, 560, 4)
+    .text(5, 316, "2022/11/08 21:44")
 
     .print();
 };
 
-t1()
+t2()
 .then(setTimeout.bind(null, process.exit, 2000))
 .catch(console.error);

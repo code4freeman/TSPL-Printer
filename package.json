@@ -1,6 +1,6 @@
 {
   "name": "TSPL-Printer",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "TSPL 打印机驱动库",
   "main": "",
   "imports": {
