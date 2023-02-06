@@ -14,3 +14,10 @@ tspl指令文档参见：[http://lilin-nas.quickconnect.cn/sharing/IlAq1Gge7](ht
 ## 🔨 API 
 文档待完善，使用见examples代码（暂以nodejs平台做示例）。    
 （2022-07-07 23:27）最近更新了bitmap缩放算法，暂时不做通用封装。  
+
+## ⚠️ 避坑
+
+* 霍尼韦尔OD480打印机，GBK字体文件需要字节下载，且打印GBK时阻塞指令，反应及其缓慢，会存在死机的可能：  
+
+![看不见请翻墙](./docs/printer1.jpg) ![看不见请翻墙](./docs/printer2.jpg)   
+
