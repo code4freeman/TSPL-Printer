@@ -17,7 +17,7 @@ tspl指令文档参见：[http://lilin-nas.quickconnect.cn/sharing/IlAq1Gge7](ht
 
 ## ⚠️ 避坑
 
-* 霍尼韦尔OD480打印机，GBK字体文件需要字节下载，且打印GBK时阻塞指令，反应及其缓慢，会存在死机的可能：  
+* 霍尼韦尔OD480打印机，GBK字体文件需要自行写入，且打印GBK时阻塞指令，反应极其缓慢，存在死机的可能：  
 
 ![看不见请翻墙](./docs/printer1.jpg) ![看不见请翻墙](./docs/printer2.jpg)   
 
